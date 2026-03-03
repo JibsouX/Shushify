@@ -40,3 +40,8 @@ Remember: if you are not paying for the product, **you** are the product.
 [DexKit](https://luckypray.org/DexKit/en/): a high-performance dex runtime parsing library.  
 [ReVanced](https://revanced.app): Continuing the legacy of Vanced at [revanced.app](https://revanced.app)  
 [Original project by chsbuffer](https://github.com/chsbuffer/ReVancedXposed_Spotify)
+
+## 🚀 Installation (simple way)
+
+Install [Shushify APK](https://github.com/jibsoux/Shushify/releases/latest).
+Install [MochiCloner](https://mochicloner.com/), activate the module (checkbox in module menu). Then clone Spotify.
