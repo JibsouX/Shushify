@@ -3,8 +3,6 @@
   <br>
 </div>
 
-## Shushify
-
 **Shushify** is an LSPosed module for Spotify that automatically mutes audio ads as soon as they start, and restores your volume the moment your music comes back.
 
 No interaction needed — it works silently in the background.
