@@ -208,11 +208,9 @@ abstract class BaseHook(protected val app: Application, val lpparam: LoadPackage
 
     private fun logDebugInfo() {
         val success = failedHooks.isEmpty()
-        if (DEBUG) {
-            XposedBridge.log("${lpparam.appInfo.packageName} version: ${getAppVersion()}")
-            if (success) {
-                Utils.showToastLong("Ready to Shush ads")
-            }
+        XposedBridge.log("${lpparam.appInfo.packageName} version: ${getAppVersion()}")
+        if (success) {
+            Utils.showToastLong("Ready to Shush ads")
         }
     }
 
