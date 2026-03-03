@@ -1,7 +1,6 @@
 package io.github.chsbuffer.revancedxposed.spotify
 
 import android.app.Application
-import android.content.Context
 import android.media.AudioManager
 import android.media.MediaMetadata
 import android.media.session.MediaSession
@@ -15,7 +14,6 @@ import io.github.chsbuffer.revancedxposed.spotify.misc.privacy.SanitizeSharingLi
 import io.github.chsbuffer.revancedxposed.spotify.misc.widgets.FixThirdPartyLaunchersWidgets
 import app.revanced.extension.shared.Logger
 
-@Suppress("UNCHECKED_CAST")
 class SpotifyHook(app: Application, lpparam: LoadPackageParam) : BaseHook(app, lpparam) {
     override val hooks = arrayOf(
         ::Extension,
@@ -25,10 +23,9 @@ class SpotifyHook(app: Application, lpparam: LoadPackageParam) : BaseHook(app, l
         ::AdSkipper
     )
 
-    companion object {
-        private var originalVolume = -1
-        private var isMuted = false
-    }
+    // Mute state — instance-level, accessed on the main thread via MediaSession callbacks
+    private var originalVolume = -1
+    private var isMuted = false
 
     /**
      * AdSkipper — Detects Spotify ads via MediaSession.setMetadata.
@@ -38,7 +35,9 @@ class SpotifyHook(app: Application, lpparam: LoadPackageParam) : BaseHook(app, l
      * When real music resumes: restores the previous volume.
      */
     fun AdSkipper() {
-        val ctx: Context = app
+        // Resolve AudioManager once — reused by every hook callback
+        val am = app.getSystemService(AudioManager::class.java)!!
+
         runCatching {
             XposedHelpers.findAndHookMethod(
                 MediaSession::class.java.name,
@@ -49,8 +48,7 @@ class SpotifyHook(app: Application, lpparam: LoadPackageParam) : BaseHook(app, l
                     override fun afterHookedMethod(param: MethodHookParam) {
                         try {
                             val metadata = param.args[0] as? MediaMetadata ?: return
-                            val mediaId = metadata.getString(MediaMetadata.METADATA_KEY_MEDIA_ID) ?: ""
-                            val am = ctx.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                            val mediaId = metadata.getString(MediaMetadata.METADATA_KEY_MEDIA_ID) ?: return
 
                             if (mediaId.contains(":ad:")) {
                                 val vol = am.getStreamVolume(AudioManager.STREAM_MUSIC)
