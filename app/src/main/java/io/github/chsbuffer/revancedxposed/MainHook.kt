@@ -34,7 +34,7 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
         inContext(lpparam) { app ->
             this.app = app
             if (isReVancedPatched(lpparam)) {
-                Utils.showToastLong("ReVanced Xposed module does not work with patched app")
+                Utils.showToastLong("Shushify does not work with a ReVanced-patched app")
                 return@inContext
             }
 

@@ -51,8 +51,8 @@ android {
 
     defaultConfig {
         applicationId = myPackageName
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.2"
         buildConfigField("String", "COMMIT_HASH", "\"${gitCommitHashProvider.get().trim()}\"")
     }
     flavorDimensions += "abi"
